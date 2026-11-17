@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The English Adventures | 5-Unit A1–A2 Platform</title>
+  <title>The English Adventures | 5-Unit A1-A2 Platform</title>
   <style>
     @import url('https://googleapis.com');
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif !important; }
@@ -12,12 +12,11 @@
     .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem; flex-wrap: wrap; gap: 8px; }
     .logo { font-size: 1.4rem; font-weight: 700; color: #EF4444; }
     .tab-bar { display: flex; gap: 8px; flex-wrap: wrap; }
-    .tab-btn { background: #FFF; color: #EF4444; border: 2px solid #EF4444; padding: 8px 14px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .tab-btn { background: #FFF; color: #EF4444; border: 2px solid #EF4444; padding: 8px 14px; border-radius: 12px; font-weight: 600; cursor: pointer; }
     .tab-btn.active, .tab-btn:hover { background: #EF4444; color: #FFF; }
     .container { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; }
-    .card { background: #FFFBEB; border: 2px solid #FDE047; border-radius: 18px; padding: 1.4rem; margin-bottom: 1.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+    .card { background: #FFFBEB; border: 2px solid #FDE047; border-radius: 18px; padding: 1.4rem; margin-bottom: 1.4rem; }
     .red-btn { background: #EF4444; color: #FFF; border: none; padding: 10px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; margin: 4px 4px 4px 0; }
-    .red-btn:hover { background: #DC2626; }
     .blue-btn { background: #3B82F6; color: #FFF; border: none; padding: 10px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; margin: 4px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
     details { background: #FFF; border: 2px solid #FDE047; border-radius: 12px; padding: 10px; cursor: pointer; }
@@ -26,7 +25,7 @@
     .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .match-btn { background: #FFF; border: 2px solid #94A3B8; border-radius: 12px; padding: 10px; font-size: 1.05rem; font-weight: 600; cursor: pointer; width: 100%; margin-bottom: 8px; }
     .match-btn.selected { border-color: #EF4444; background: #FEE2E2; }
-    .match-btn.done { border-color: #10B981; background: #D1FAE5; cursor: default; }
+    .match-btn.done { border-color: #10B981; background: #D1FAE5; }
     .rule-box { background: #EFF6FF; padding: 12px; border-left: 5px solid #3B82F6; border-radius: 8px; margin-bottom: 1rem; }
     table { width: 100%; border-collapse: collapse; background: #FFF; }
     th, td { padding: 10px; border: 1px solid #E2E8F0; text-align: left; }
@@ -38,7 +37,6 @@
   </style>
 </head>
 <body>
-
   <header>
     <div class="top-row">
       <div class="logo">🌟 The English Adventures</div>
@@ -46,13 +44,10 @@
     </div>
     <div class="tab-bar" id="tab-bar"></div>
   </header>
-
   <div class="container" id="app"></div>
-
   <footer>Created for IB MYP2 Design Portfolio • Designed for Ages 9–14 (A1–A2 English)</footer>
-
   <script>
-    const units = {
+    var units = {
       u1: {
         tab: "🏙️ Unit 1: My City",
         title: "Unit 1: My City",
@@ -170,17 +165,20 @@
       }
     };
 
-    let activeTab = "home";
-    let cardIndex = 0;
-    let pickLeftBtn = null, pickLeftVal = "";
-    let pickRightBtn = null, pickRightVal = "";
+    var activeTab = "home";
+    var cardIndex = 0;
+    var pickLeftBtn = null, pickLeftVal = "";
+    var pickRightBtn = null, pickRightVal = "";
 
     function renderTabs() {
-      const bar = document.getElementById("tab-bar");
-      bar.innerHTML = `<button class="tab-btn ${activeTab === 'home' ? 'active' : ''}" onclick="switchTab('home')">🏠 Home</button>`;
-      Object.keys(units).forEach(key => {
-        bar.innerHTML += `<button class="tab-btn ${activeTab === key ? 'active' : ''}" onclick="switchTab('${key}')">${units[key].tab}</button>`;
-      });
+      var bar = document.getElementById("tab-bar");
+      var html = '<button class="tab-btn ' + (activeTab === 'home' ? 'active' : '') + '" onclick="switchTab(\'home\')">🏠 Home</button>';
+      var keys = ["u1", "u2", "u3", "u4", "u5"];
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys.at(i);
+        html += '<button class="tab-btn ' + (activeTab === k ? 'active' : '') + '" onclick="switchTab(\'' + k + '\')">' + units[k].tab + '</button>';
+      }
+      bar.innerHTML = html;
     }
 
     function switchTab(tabKey) {
@@ -188,120 +186,175 @@
       cardIndex = 0;
       pickLeftBtn = null;
       pickRightBtn = null;
-Kodu dikkatli kullanın.
-renderTabs();
-renderContent();
-window.scrollTo(0, 0);
-}
-function renderContent() {
-const app = document.getElementById("app");
-if (activeTab === "home") {
-app.innerHTML =  <div class="card" style="background:#FEF08A; border:2px dashed #EAB308;"> <h1>🧒🏽👋 Hello Learner, Welcome! 👧🏼✨</h1> <p>Welcome to your safe, ad-free A1–A2 English learning website designed for ages 9–14. Click any unit tab above to start!</p> <button class="red-btn" onclick="switchTab('u1')">Start Unit 1: My City 🚀</button> </div> <div class="card"> <h3>📚 All 5 Units</h3> <ul> <li><strong>Unit 1: My City</strong> — Places in town &amp; Am / Is / Are</li> <li><strong>Unit 2: Fruits &amp; Food</strong> — Healthy foods &amp; A / An</li> <li><strong>Unit 3: Animals</strong> — Zoo animals &amp; Can / Can't</li> <li><strong>Unit 4: Daily Routines</strong> — Everyday habits &amp; Simple Present (-s)</li> <li><strong>Unit 5: Weather &amp; Seasons</strong> — Describing weather &amp; It is</li> </ul> </div>;
-return;
-}
-const u = units[activeTab];
-const card = u.words[cardIndex];
-app.innerHTML = <div class="card"> <h2>${u.title}</h2> <p><strong>1. Interactive Word List:</strong> Click on any English word to see its picture and Turkish meaning.</p> <div class="grid"> ${u.words.map(w =>${w.en} 🔽${w.icon} Turkish: ${w.tr}`).join("")}
+      renderTabs();
+      renderContent();
+      window.scrollTo(0, 0);
+    }
 
-2. Sliding Flashcards
+    function renderContent() {
+      var app = document.getElementById("app");
+      if (activeTab === "home") {
+        app.innerHTML =
+          '<div class="card" style="background:#FEF08A; border:2px dashed #EAB308;">' +
+            '<h1>🧒🏽👋 Hello Learner, Welcome! 👧🏼✨</h1>' +
+            '<p>Welcome to your safe, ad-free A1–A2 English learning website designed for ages 9–14. Click any unit tab above to start!</p>' +
+            '<button class="red-btn" onclick="switchTab(\'u1\')">Start Unit 1: My City 🚀</button>' +
+          '</div>' +
+          '<div class="card">' +
+            '<h3>📚 All 5 Units</h3>' +
+            '<ul>' +
+              '<li><strong>Unit 1: My City</strong> — Places in town &amp; Am / Is / Are</li>' +
+              '<li><strong>Unit 2: Fruits &amp; Food</strong> — Healthy foods &amp; A / An</li>' +
+              '<li><strong>Unit 3: Animals</strong> — Zoo animals &amp; Can / Can\'t</li>' +
+              '<li><strong>Unit 4: Daily Routines</strong> — Everyday habits &amp; Simple Present (-s)</li>' +
+              '<li><strong>Unit 5: Weather &amp; Seasons</strong> — Describing weather &amp; It is</li>' +
+            '</ul>' +
+          '</div>';
+        return;
+      }
 
-${card.icon}
-${card.en}
-${card.tr}
-🔊 Listen
+      var u = units[activeTab];
+      var card = u.words.at(cardIndex);
+      var wordsHtml = "";
+      var leftBtns = "";
+      var rightBtns = "";
+      var tfHtml = "";
+      var quizHtml = "";
 
-⬅️ Prev
-Next ➡️
+      for (var i = 0; i < u.words.length; i++) {
+        var w = u.words.at(i);
+        wordsHtml += '<details><summary>' + w.en + ' 🔽</summary><p>' + w.icon + ' <strong>Turkish:</strong> ' + w.tr + '</p></details>';
+        leftBtns += '<button class="match-btn" onclick="selectLeft(this, \'' + w.en + '\')">' + w.icon + '</button>';
+        rightBtns += '<button class="match-btn" onclick="selectRight(this, \'' + u.shuffled.at(i) + '\')">' + u.shuffled.at(i) + '</button>';
+      }
 
-3. Game: Match the Flashcards
+      for (var j = 0; j < u.tf.length; j++) {
+        var row = u.tf.at(j);
+        tfHtml += '<tr><td>' + row.t + '</td><td>' + row.f + '</td></tr>';
+      }
 
-${u.words.map(w => <button class="match-btn" onclick="selectLeft(this, '${w.en}')">${w.icon}</button>).join("")}
-${u.shuffled.map(word => <button class="match-btn" onclick="selectRight(this, '${word}')">${word}</button>).join("")}
+      for (var q = 0; q < u.quiz.length; q++) {
+        var item = u.quiz.at(q);
+        quizHtml += '<p><strong>' + item.q + '</strong><br><input type="text" id="q-' + q + '"> <span id="r-' + q + '"></span></p>';
+      }
 
+      app.innerHTML =
+        '<div class="card">' +
+          '<h2>' + u.title + '</h2>' +
+          '<p><strong>1. Interactive Word List:</strong> Click on any English word to see its picture and Turkish meaning.</p>' +
+          '<div class="grid">' + wordsHtml + '</div>' +
+        '</div>' +
+        '<div class="card">' +
+          '<h3>2. Sliding Flashcards</h3>' +
+          '<div class="flashcard">' +
+            '<div style="font-size:4rem;">' + card.icon + '</div>' +
+            '<h2 style="margin:0;">' + card.en + '</h2>' +
+            '<p style="color:#64748B;">' + card.tr + '</p>' +
+            '<button class="red-btn" onclick="speak(\'' + card.en + '\', 1)">🔊 Listen</button><br>' +
+            '<button class="red-btn" onclick="moveCard(-1)">⬅️ Prev</button>' +
+            '<button class="red-btn" onclick="moveCard(1)">Next ➡️</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="card">' +
+          '<h3>3. Game: Match the Flashcards</h3>' +
+          '<div class="match-grid"><div>' + leftBtns + '</div><div>' + rightBtns + '</div></div>' +
+          '<p id="match-msg" style="font-weight:700; color:#10B981;"></p>' +
+        '</div>' +
+        '<div class="card">' +
+          '<h3>4. Grammar Focus &amp; True / False Table</h3>' +
+          '<div class="rule-box"><strong>' + u.rule + '</strong></div>' +
+          '<table><thead><tr><th class="t-col">✅ TRUE</th><th class="f-col">❌ FALSE</th></tr></thead><tbody>' + tfHtml + '</tbody></table>' +
+        '</div>' +
+        '<div class="card">' +
+          '<h3>5. Listening Practice</h3>' +
+          '<button class="red-btn" onclick="speakStory()">🔊 Play Listening Audio</button>' +
+          '<button class="blue-btn" onclick="toggleScript()">📄 Show / Hide Script</button>' +
+          '<p id="script-box" class="script-box">"' + u.story + '"</p>' +
+          quizHtml +
+          '<button class="red-btn" onclick="checkQuiz()">Check Answers ✓/✗</button>' +
+        '</div>';
+    }
 
-4. Grammar Focus & True / False Table
-${u.rule}
-{u.tf.map(r => `<tr><td>{r.t}${r.f}`).join("")}
+    function moveCard(step) {
+      var len = units[activeTab].words.length;
+      cardIndex = (cardIndex + step + len) % len;
+      renderContent();
+    }
 
-✅ TRUE	❌ FALSE
+    function speak(text, rate) {
+      speechSynthesis.cancel();
+      var msg = new SpeechSynthesisUtterance(text);
+      msg.lang = "en-US";
+      msg.rate = rate;
+      speechSynthesis.speak(msg);
+    }
 
-5. Listening Practice
-🔊 Play Listening Audio
-📄 Show / Hide Script
-"${u.story}"
-${u.quiz.map((item, i) => <p><strong>${item.q}</strong><br><input type="text" id="q-${i}"> <span id="r-${i}"></span></p>).join("")}
-Check Answers ✓/✗
-`;
-}
-function moveCard(step) {
-const len = units[activeTab].words.length;
-cardIndex = (cardIndex + step + len) % len;
-renderContent();
-}
-function speak(text, rate) {
-speechSynthesis.cancel();
-const msg = new SpeechSynthesisUtterance(text);
-msg.lang = "en-US";
-msg.rate = rate;
-speechSynthesis.speak(msg);
-}
-function speakStory() {
-speak(units[activeTab].story, 0.9);
-}
-function toggleScript() {
-const box = document.getElementById("script-box");
-box.style.display = box.style.display === "block" ? "none" : "block";
-}
-function selectLeft(btn, val) {
-if (btn.classList.contains("done")) return;
-if (pickLeftBtn) pickLeftBtn.classList.remove("selected");
-pickLeftBtn = btn;
-pickLeftVal = val;
-btn.classList.add("selected");
-verifyMatch();
-}
-function selectRight(btn, val) {
-if (btn.classList.contains("done")) return;
-if (pickRightBtn) pickRightBtn.classList.remove("selected");
-pickRightBtn = btn;
-pickRightVal = val;
-btn.classList.add("selected");
-verifyMatch();
-}
-function verifyMatch() {
-if (!pickLeftBtn || !pickRightBtn) return;
-const msg = document.getElementById("match-msg");
-if (pickLeftVal === pickRightVal) {
-pickLeftBtn.classList.remove("selected");
-pickRightBtn.classList.remove("selected");
-pickLeftBtn.classList.add("done");
-pickRightBtn.classList.add("done");
-msg.textContent = "✅ Matched: " + pickLeftVal + "!";
-msg.style.color = "#10B981";
-} else {
-pickLeftBtn.classList.remove("selected");
-pickRightBtn.classList.remove("selected");
-msg.textContent = "❌ Try again!";
-msg.style.color = "#EF4444";
-}
-pickLeftBtn = null;
-pickRightBtn = null;
-}
-function checkQuiz() {
-units[activeTab].quiz.forEach((item, i) => {
-const val = document.getElementById("q-" + i).value.trim().toLowerCase();
-const res = document.getElementById("r-" + i);
-if (val.includes(item.a)) {
-res.textContent = "✓ Correct!";
-res.style.color = "#10B981";
-res.style.fontWeight = "700";
-} else {
-res.textContent = "✗ Try again";
-res.style.color = "#EF4444";
-res.style.fontWeight = "700";
-}
-});
-}
-renderTabs();
-renderContent();
-</script>
+    function speakStory() {
+      speak(units[activeTab].story, 0.9);
+    }
+
+    function toggleScript() {
+      var box = document.getElementById("script-box");
+      box.style.display = (box.style.display === "block") ? "none" : "block";
+    }
+
+    function selectLeft(btn, val) {
+      if (btn.classList.contains("done")) return;
+      if (pickLeftBtn) pickLeftBtn.classList.remove("selected");
+      pickLeftBtn = btn;
+      pickLeftVal = val;
+      btn.classList.add("selected");
+      verifyMatch();
+    }
+
+    function selectRight(btn, val) {
+      if (btn.classList.contains("done")) return;
+      if (pickRightBtn) pickRightBtn.classList.remove("selected");
+      pickRightBtn = btn;
+      pickRightVal = val;
+      btn.classList.add("selected");
+      verifyMatch();
+    }
+
+    function verifyMatch() {
+      if (!pickLeftBtn || !pickRightBtn) return;
+      var msg = document.getElementById("match-msg");
+      if (pickLeftVal === pickRightVal) {
+        pickLeftBtn.classList.remove("selected");
+        pickRightBtn.classList.remove("selected");
+        pickLeftBtn.classList.add("done");
+        pickRightBtn.classList.add("done");
+        msg.textContent = "✅ Matched: " + pickLeftVal + "!";
+        msg.style.color = "#10B981";
+      } else {
+        pickLeftBtn.classList.remove("selected");
+        pickRightBtn.classList.remove("selected");
+        msg.textContent = "❌ Try again!";
+        msg.style.color = "#EF4444";
+      }
+      pickLeftBtn = null;
+      pickRightBtn = null;
+    }
+
+    function checkQuiz() {
+      var list = units[activeTab].quiz;
+      for (var i = 0; i < list.length; i++) {
+        var val = document.getElementById("q-" + i).value.trim().toLowerCase();
+        var res = document.getElementById("r-" + i);
+        if (val.indexOf(list.at(i).a) !== -1) {
+          res.textContent = "✓ Correct!";
+          res.style.color = "#10B981";
+          res.style.fontWeight = "700";
+        } else {
+          res.textContent = "✗ Try again";
+          res.style.color = "#EF4444";
+          res.style.fontWeight = "700";
+        }
+      }
+    }
+
+    renderTabs();
+    renderContent();
+  </script>
+</body>
+</html>
