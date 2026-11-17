@@ -289,7 +289,7 @@
       renderContent();
     }
 
-      var activeAudio = null;
+       var activeAudio = null;
 
     function speak(text, rate) {
       if (activeAudio) {
@@ -300,18 +300,32 @@
         window.speechSynthesis.cancel();
       }
 
-      var encoded = encodeURIComponent(text);
-      var url = "https://google.com" + encoded;
-      activeAudio = new Audio(url);
+      var cleanWord = text.trim().toLowerCase();
+      var isSingleWord = cleanWord.indexOf(" ") === -1;
+
+      var url = isSingleWord
+        ? "https://gstatic.com" + cleanWord + "--_us_1.mp3"
+        : "https://streamelements.com" + encodeURIComponent(text);
+
+      activeAudio = document.createElement("audio");
+      activeAudio.setAttribute("referrerpolicy", "no-referrer");
+      activeAudio.src = url;
       activeAudio.playbackRate = rate;
 
       activeAudio.play().catch(function() {
-        if ('speechSynthesis' in window) {
-          var msg = new SpeechSynthesisUtterance(text);
-          msg.lang = "en-US";
-          msg.rate = rate;
-          window.speechSynthesis.speak(msg);
-        }
+        var backupUrl = "https://streamelements.com" + encodeURIComponent(text);
+        activeAudio = document.createElement("audio");
+        activeAudio.setAttribute("referrerpolicy", "no-referrer");
+        activeAudio.src = backupUrl;
+        activeAudio.playbackRate = rate;
+        activeAudio.play().catch(function() {
+          if ('speechSynthesis' in window) {
+            var msg = new SpeechSynthesisUtterance(text);
+            msg.lang = "en-US";
+            msg.rate = rate;
+            window.speechSynthesis.speak(msg);
+          }
+        });
       });
     }
     function speakStory() {
