@@ -9,10 +9,6 @@
   <link href="https://googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif !important; }
-</style>
-  <style>
-    @import url('https://googleapis.com');
-    * { box-sizing: border-box; font-family: 'Poppins', sans-serif !important; }
     body { margin: 0; background: #FEF9C3; color: #1E293B; line-height: 1.6; }
     header { background: #FEF08A; border-bottom: 3px solid #FACC15; padding: 1rem 1.5rem; position: sticky; top: 0; z-index: 100; }
     .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem; flex-wrap: wrap; gap: 8px; }
@@ -287,27 +283,28 @@
       renderContent();
     }
 
+    var currentUtterance = null;
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = function() {
+        window.speechSynthesis.getVoices();
+      };
+    }
+
     function speak(text, rate) {
       if (!('speechSynthesis' in window)) {
-        alert("Audio is not supported in this browser. Try Chrome or Edge!");
+        alert("Audio is not supported in this browser.");
         return;
       }
       window.speechSynthesis.cancel();
-      window.speechSynthesis.resume();
-      var msg = new SpeechSynthesisUtterance(text);
-      msg.lang = "en-US";
-      msg.rate = rate;
-      msg.volume = 1;
-      var voices = window.speechSynthesis.getVoices();
-      for (var i = 0; i < voices.length; i++) {
-        if (voices[i].lang.indexOf("en") === 0) {
-          msg.voice = voices[i];
-          break;
-        }
-      }
-      window.speechSynthesis.speak(msg);
+      setTimeout(function() {
+        currentUtterance = new SpeechSynthesisUtterance(text);
+        currentUtterance.lang = "en-US";
+        currentUtterance.rate = rate;
+        currentUtterance.volume = 1;
+        window.speechSynthesis.speak(currentUtterance);
+      }, 60);
     }
-
     function speakStory() {
       speak(units[activeTab].story, 0.9);
     }
