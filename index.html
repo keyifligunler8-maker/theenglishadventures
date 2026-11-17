@@ -289,44 +289,44 @@
       renderContent();
     }
 
-       var activeAudio = null;
+       function speak(text, rate) {
+      // 1. Wake up Chrome's audio hardware immediately so Windows registers Chrome
+      try {
+        var AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+          var ctx = new AudioCtx();
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          gain.gain.value = 0.01; // Tiny gentle click sound to unlock Chrome audio
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.05);
+        }
+      } catch (e) {}
 
-    function speak(text, rate) {
-      if (activeAudio) {
-        activeAudio.pause();
-        activeAudio = null;
-      }
+      // 2. Speak using Chrome's built-in speech engine cleanly
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-      }
+        window.speechSynthesis.resume();
 
-      var cleanWord = text.trim().toLowerCase();
-      var isSingleWord = cleanWord.indexOf(" ") === -1;
+        var utter = new SpeechSynthesisUtterance(text);
+        utter.lang = "en-US";
+        utter.rate = rate;
+        utter.pitch = 1;
+        utter.volume = 1;
 
-      var url = isSingleWord
-        ? "https://gstatic.com" + cleanWord + "--_us_1.mp3"
-        : "https://streamelements.com" + encodeURIComponent(text);
-
-      activeAudio = document.createElement("audio");
-      activeAudio.setAttribute("referrerpolicy", "no-referrer");
-      activeAudio.src = url;
-      activeAudio.playbackRate = rate;
-
-      activeAudio.play().catch(function() {
-        var backupUrl = "https://streamelements.com" + encodeURIComponent(text);
-        activeAudio = document.createElement("audio");
-        activeAudio.setAttribute("referrerpolicy", "no-referrer");
-        activeAudio.src = backupUrl;
-        activeAudio.playbackRate = rate;
-        activeAudio.play().catch(function() {
-          if ('speechSynthesis' in window) {
-            var msg = new SpeechSynthesisUtterance(text);
-            msg.lang = "en-US";
-            msg.rate = rate;
-            window.speechSynthesis.speak(msg);
+        // Pick a local English voice if available (avoids broken Google cloud voices)
+        var voices = window.speechSynthesis.getVoices();
+        for (var i = 0; i < voices.length; i++) {
+          if (voices[i].lang.indexOf("en") === 0 && voices[i].localService) {
+            utter.voice = voices[i];
+            break;
           }
-        });
-      });
+        }
+
+        window.speechSynthesis.speak(utter);
+      }
     }
     function speakStory() {
       speak(units[activeTab].story, 0.9);
