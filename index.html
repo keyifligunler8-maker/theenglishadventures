@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The English Adventures | 5-Unit A1-A2 Platform</title>
+    <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif !important; }
+</style>
   <style>
     @import url('https://googleapis.com');
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif !important; }
@@ -282,11 +288,24 @@
     }
 
     function speak(text, rate) {
-      speechSynthesis.cancel();
+      if (!('speechSynthesis' in window)) {
+        alert("Audio is not supported in this browser. Try Chrome or Edge!");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.resume();
       var msg = new SpeechSynthesisUtterance(text);
       msg.lang = "en-US";
       msg.rate = rate;
-      speechSynthesis.speak(msg);
+      msg.volume = 1;
+      var voices = window.speechSynthesis.getVoices();
+      for (var i = 0; i < voices.length; i++) {
+        if (voices[i].lang.indexOf("en") === 0) {
+          msg.voice = voices[i];
+          break;
+        }
+      }
+      window.speechSynthesis.speak(msg);
     }
 
     function speakStory() {
