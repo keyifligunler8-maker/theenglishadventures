@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KidEng A1–A2 | Unit 1: My City</title>
+  <link href="https://googleapis.com" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { margin: 0; background-color: #FEF9C3; color: #1E293B; line-height: 1.6; }
+    header { background-color: #FEF08A; border-bottom: 3px solid #FACC15; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: #EF4444; }
+    .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    .card { background-color: #FFFBEB; border: 2px solid #FDE047; border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .red-btn { background-color: #EF4444; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; margin: 5px; }
+    .red-btn:hover { background-color: #DC2626; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    details { background: white; border: 2px solid #FDE047; border-radius: 12px; padding: 12px; cursor: pointer; }
+    summary { font-weight: 700; font-size: 1.1rem; }
+    .flashcard { text-align: center; background: white; border: 3px solid #FACC15; border-radius: 18px; padding: 1.5rem; max-width: 380px; margin: 0 auto; }
+    .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .match-btn { background: white; border: 2px solid #94A3B8; border-radius: 12px; padding: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%; margin-bottom: 8px; }
+    .match-btn.selected { border-color: #EF4444; background: #FEE2E2; }
+    .match-btn.done { border-color: #10B981; background: #D1FAE5; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { padding: 12px; border: 1px solid #E2E8F0; text-align: left; }
+    th.true-h { background: #DCFCE7; color: #166534; }
+    th.false-h { background: #FEE2E2; color: #991B1B; }
+    input[type="text"] { padding: 8px 12px; border-radius: 8px; border: 2px solid #FACC15; width: 220px; margin-top: 6px; }
+    footer { text-align: center; padding: 1.5rem; color: #64748B; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">🌟 KidEng A1–A2</div>
+    <div><strong>MYP2 Design Portfolio Project</strong></div>
+  </header>
+
+  <div class="container">
+
+    <!-- SECTION 1: INTERACTIVE WORD LIST -->
+    <div class="card">
+      <h2>Unit 1: My City</h2>
+      <p><strong>1. Interactive Word List:</strong> Click on any English word below to see its picture and Turkish meaning.</p>
+      <div class="grid">
+        <details>
+          <summary>Hospital 🔽</summary>
+          <p>🏥 <strong>Turkish:</strong> Hastane</p>
+        </details>
+        <details>
+          <summary>Hotel 🔽</summary>
+          <p>🏨 <strong>Turkish:</strong> Otel</p>
+        </details>
+        <details>
+          <summary>Restaurant 🔽</summary>
+          <p>🍽️ <strong>Turkish:</strong> Restoran</p>
+        </details>
+        <details>
+          <summary>School 🔽</summary>
+          <p>🏫 <strong>Turkish:</strong> Okul</p>
+        </details>
+      </div>
+    </div>
+
+    <!-- SECTION 2: SLIDING FLASHCARDS -->
+    <div class="card">
+      <h3>2. Sliding Flashcards</h3>
+      <div class="flashcard">
+        <div id="fc-icon" style="font-size: 4rem;">🏥</div>
+        <h2 id="fc-en" style="margin: 0;">Hospital</h2>
+        <p id="fc-tr" style="color: #64748B;">Hastane</p>
+        <button class="red-btn" onclick="sayWord()">🔊 Listen Pronunciation</button><br>
+        <button class="red-btn" onclick="changeCard(-1)">⬅️ Prev</button>
+        <button class="red-btn" onclick="changeCard(1)">Next ➡️</button>
+      </div>
+    </div>
+
+    <!-- SECTION 3: MATCH THE FLASHCARDS -->
+    <div class="card">
+      <h3>3. Game: Match the Flashcards</h3>
+      <p>Click a picture on the left, then click its matching English word on the right!</p>
+      <div class="match-grid">
+        <div>
+          <button class="match-btn" onclick="pickLeft(this, 'Hospital')">🏥</button>
+          <button class="match-btn" onclick="pickLeft(this, 'Hotel')">🏨</button>
+          <button class="match-btn" onclick="pickLeft(this, 'Restaurant')">🍽️</button>
+          <button class="match-btn" onclick="pickLeft(this, 'School')">🏫</button>
+        </div>
+        <div>
+          <button class="match-btn" onclick="pickRight(this, 'School')">School</button>
+          <button class="match-btn" onclick="pickRight(this, 'Hospital')">Hospital</button>
+          <button class="match-btn" onclick="pickRight(this, 'Hotel')">Hotel</button>
+          <button class="match-btn" onclick="pickRight(this, 'Restaurant')">Restaurant</button>
+        </div>
+      </div>
+      <p id="match-msg" style="font-weight: 700; color: #10B981;"></p>
+    </div>
+
+    <!-- SECTION 4: GRAMMAR & TRUE/FALSE TABLE -->
+    <div class="card">
+      <h3>4. Grammar Focus & True / False Table</h3>
+      <p style="background: #EFF6FF; padding: 12px; border-left: 5px solid #3B82F6; border-radius: 8px;">
+        <strong>Rule (Am / Is / Are):</strong> Use <em>I am</em>, <em>He / She / It is</em>, and <em>You / We / They are</em>. Example: <strong>She is in the hotel.</strong>
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th class="true-h">✅ TRUE (Correct Usage)</th>
+            <th class="false-h">❌ FALSE (Common Mistake)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>She is in the hotel.</td>
+            <td>She in the hotel.</td>
+          </tr>
+          <tr>
+            <td>I am in the restaurant.</td>
+            <td>I is in the restaurant.</td>
+          </tr>
+          <tr>
+            <td>They are at school.</td>
+            <td>They am at school.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 5: WATCH & LEARN -->
+    <div class="card">
+      <h3>5. Watch & Learn (Unit Video / Song)</h3>
+      <p>Watch this short video to review the unit topic:</p>
+      <iframe width="100%" height="315" src="https://youtube.com" title="My City Song" frameborder="0" allowfullscreen style="border-radius: 12px;"></iframe>
+    </div>
+
+    <!-- SECTION 6: LISTENING PRACTICE -->
+    <div class="card">
+      <h3>Listening Practice: Unit 1 - My City</h3>
+      <p>Click the <strong>Play Audio</strong> button to listen to the short story, then answer the questions below.</p>
+      <button class="red-btn" onclick="playStory()">🔊 Play Listening Audio</button>
+      <button class="red-btn" style="background:#3B82F6;" onclick="toggleScript()">📄 Show / Hide Script</button>
+
+      <p id="story-script" style="display:none; background:#FEF3C7; padding:12px; border-radius:10px; margin-top:10px;">
+        "Hello! My name is Amy. Today, I am in the hotel with my friend John. We are in the same place!"
+      </p>
+
+      <div style="margin-top: 15px;">
+        <p><strong>1. Where is Amy?</strong><br>
+        <input type="text" id="q1" placeholder="Type answer..."> <span id="r1"></span></p>
+
+        <p><strong>2. Where is John?</strong><br>
+        <input type="text" id="q2" placeholder="Type answer..."> <span id="r2"></span></p>
+
+        <p><strong>3. Are they in the same place? (Yes / No)</strong><br>
+        <input type="text" id="q3" placeholder="Type answer..."> <span id="r3"></span></p>
+      </div>
+
+      <button class="red-btn" onclick="checkQuiz()">Check Answers ✓/✗</button>
+    </div>
+
+  </div>
+
+  <footer>
+    Created for IB MYP2 Design Portfolio • Designed for Ages 9–14 (A1–A2 English)
+  </footer>
+
+  <script>
+    var cards = [
+      { icon: "🏥", en: "Hospital", tr: "Hastane" },
+      { icon: "🏨", en: "Hotel", tr: "Otel" },
+      { icon: "🍽️", en: "Restaurant", tr: "Restoran" },
+      { icon: "🏫", en: "School", tr: "Okul" }
+    ];
+    var idx = 0;
+
+    function changeCard(step) {
+      idx = (idx + step + cards.length) % cards.length;
+      document.getElementById("fc-icon").textContent = cards[idx].icon;
+      document.getElementById("fc-en").textContent = cards[idx].en;
+      document.getElementById("fc-tr").textContent = cards[idx].tr;
+    }
+
+    function sayWord() {
+      var msg = new SpeechSynthesisUtterance(cards[idx].en);
+      msg.lang = "en-US";
+      speechSynthesis.speak(msg);
+    }
+
+    var leftBtn = null, leftVal = "";
+    var rightBtn = null, rightVal = "";
+
+    function pickLeft(btn, val) {
+      if (btn.classList.contains("done")) return;
+      if (leftBtn) leftBtn.classList.remove("selected");
+      leftBtn = btn;
+      leftVal = val;
+      btn.classList.add("selected");
+      tryMatch();
+    }
+
+    function pickRight(btn, val) {
+      if (btn.classList.contains("done")) return;
+      if (rightBtn) rightBtn.classList.remove("selected");
+      rightBtn = btn;
+      rightVal = val;
+      btn.classList.add("selected");
+      tryMatch();
+    }
+
+    function tryMatch() {
+      if (!leftBtn || !rightBtn) return;
+      if (leftVal === rightVal) {
+        leftBtn.classList.remove("selected");
+        rightBtn.classList.remove("selected");
+        leftBtn.classList.add("done");
+        rightBtn.classList.add("done");
+        document.getElementById("match-msg").textContent = "✅ Matched: " + leftVal + "!";
+      } else {
+        leftBtn.classList.remove("selected");
+        rightBtn.classList.remove("selected");
+        document.getElementById("match-msg").textContent = "❌ Try again!";
+      }
+      leftBtn = null;
+      rightBtn = null;
+    }
+
+    function playStory() {
+      var msg = new SpeechSynthesisUtterance("Hello! My name is Amy. Today, I am in the hotel with my friend John. We are in the same place!");
+      msg.lang = "en-US";
+      msg.rate = 0.9;
+      speechSynthesis.speak(msg);
+    }
+
+
+function toggleScript() {
+var s = document.getElementById("story-script");
+s.style.display = (s.style.display === "none") ? "block" : "none";
+}
+function checkQuiz() {
+var a1 = document.getElementById("q1").value.toLowerCase();
+var a2 = document.getElementById("q2").value.toLowerCase();
+var a3 = document.getElementById("q3").value.toLowerCase();
+document.getElementById("r1").textContent = a1.indexOf("hotel") !== -1 ? "✓ Correct!" : "✗ Try again";
+document.getElementById("r2").textContent = a2.indexOf("hotel") !== -1 ? "✓ Correct!" : "✗ Try again";
+document.getElementById("r3").textContent = a3.indexOf("yes") !== -1 ? "✓ Correct!" : "✗ Try again";
+}
+</script>
